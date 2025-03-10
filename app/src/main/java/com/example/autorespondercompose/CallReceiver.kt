@@ -22,8 +22,11 @@ class IncomingCallReceiver : BroadcastReceiver() {
                 val storedPhoneNumber = preferences.getString("phoneNumber", "")
                 val storedMessage = preferences.getString("message", "")
 
+                // Agregar un log para verificar que se están obteniendo los datos guardados
+                Log.d("IncomingCallReceiver", "Llamada entrante: $callerNumber, Número guardado: $storedPhoneNumber")
+
                 if (callerNumber == storedPhoneNumber && !hasMessageBeenSent) {
-                    Log.d("IncomingCallReceiver", "Matching number detected: $callerNumber")
+                    Log.d("IncomingCallReceiver", "Coincidencia encontrada: Enviando mensaje a $callerNumber")
                     sendAutoReplySMS(context, callerNumber, storedMessage ?: "")
                     hasMessageBeenSent = true
                 }
@@ -32,6 +35,7 @@ class IncomingCallReceiver : BroadcastReceiver() {
             }
         }
     }
+
 
     private fun sendAutoReplySMS(context: Context, recipientNumber: String, replyMessage: String) {
         try {
